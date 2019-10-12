@@ -116,7 +116,7 @@ public class EmailUtils {
 						body += (String) mimeMultiPart.getBodyPart(i).getContent();
 					ret = body;
 				}
-				message.setFlag(Flag.SEEN, true);
+				message.setFlag(Flag.DELETED, true);
 				break;
 			}
 		}
