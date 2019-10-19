@@ -6,7 +6,7 @@ CLImessage allows the sending and receiving of SMS text messages to and from a c
 This is done by sending emails to an address that forwards them to a phone number.
 
 When run for the fist time, CLImessage:
-- Creates directory 'userdata' to store user information.
+- Creates directory 'userdata' to store user information and conversations.
 - Prompts user for G-Mail account credentials and stores them in 'userdata/creds.properties'.
 - Allows the creation of new conversations.
 
@@ -20,6 +20,9 @@ When opening a previously created conversation, CLImessage:
 - Opens the messenger and allows sending and receiving of messages.
 - Displays all previously logged messages.
 - Logs sent and received messages.
+
+Other features:
+- When receiving a message, CLImessage will play a notification sound.
 
 ## Demo
 <a href="https://asciinema.org/a/RD8LOwo4d6tmkWLIXlus6vGqD" target="_blank"><img src="https://asciinema.org/a/RD8LOwo4d6tmkWLIXlus6vGqD.svg" width="600"/></a>
