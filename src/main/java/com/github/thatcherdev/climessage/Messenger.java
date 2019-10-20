@@ -1,18 +1,22 @@
 package com.github.thatcherdev.climessage;
 
-import org.fusesource.jansi.Ansi;
-import org.fusesource.jansi.Ansi.Erase;
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.io.IOException;
+import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.Properties;
-import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.Scanner;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import org.fusesource.jansi.Ansi;
+import org.fusesource.jansi.Ansi.Erase;
 
 public class Messenger {
 
@@ -101,6 +105,7 @@ public class Messenger {
 							messages.add(0, message + "  -  [received] " + timestamp);
 							dispMessages();
 							out.println(message + "  -  [received] " + timestamp);
+							playNotificationSound();
 						}
 						Thread.sleep(3000);
 					} catch (Exception e) {
@@ -143,6 +148,21 @@ public class Messenger {
 			}
 		};
 		send.start();
+	}
+
+	/**
+	 * When executed from a jar file, plays "BOOT-INF/classes/notification.wav"
+	 * which is a copy of "src/main/resources/notification.wav".
+	 */
+	private void playNotificationSound() {
+		try {
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+					new BufferedInputStream(getClass().getResourceAsStream("/BOOT-INF/classes/notification.wav")));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+		} catch (Exception e) {
+		}
 	}
 
 	/**
