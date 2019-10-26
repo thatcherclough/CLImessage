@@ -18,7 +18,7 @@ When creating a conversation, CLImessage:
 
 When opening a previously created conversation, CLImessage:
 - Opens the messenger and allows sending and receiving of messages.
-- Displays all previously logged messages.
+- Displays the last 10 logged messages.
 - Logs sent and received messages.
 
 Other features:

@@ -47,7 +47,7 @@ public class Messenger {
 		password = creds.getProperty("password");
 		recipient = EmailUtils.getEmail(filename.substring(filename.lastIndexOf("-") + 1, filename.lastIndexOf(".")));
 		Scanner in = new Scanner(new File(filename));
-		while (in.hasNextLine())
+		for (int k = 0; k < 10 && in.hasNextLine(); k++)
 			messages.add(0, in.nextLine());
 		in.close();
 		out = new PrintWriter(new FileOutputStream(new File(filename), true), true);
@@ -81,6 +81,7 @@ public class Messenger {
 						String timestamp = "["
 								+ DateTimeFormatter.ofPattern("MM/dd/YYYY HH:mm:ss").format(LocalDateTime.now()) + "]";
 						messages.add(0, message + "  -  [sent] " + timestamp);
+						messages.remove(messages.size() - 1);
 						dispMessages();
 						out.println(message + "  -  [sent] " + timestamp);
 						sendMessage(message);
@@ -103,6 +104,7 @@ public class Messenger {
 									+ DateTimeFormatter.ofPattern("MM/dd/YYYY HH:mm:ss").format(LocalDateTime.now())
 									+ "]";
 							messages.add(0, message + "  -  [received] " + timestamp);
+							messages.remove(messages.size() - 1);
 							dispMessages();
 							out.println(message + "  -  [received] " + timestamp);
 							playNotificationSound();
@@ -119,7 +121,7 @@ public class Messenger {
 	}
 
 	/**
-	 * Saves cursor position, moves cursor down 2 times, displays {@ink #messages},
+	 * Saves cursor position, moves cursor down 2 lines, displays {@ink #messages},
 	 * restores cursor position.
 	 */
 	private void dispMessages() {
@@ -170,7 +172,7 @@ public class Messenger {
 	 * (0,0), displays "An error occurred:" followed by {@link errorMessage}, and
 	 * exits.
 	 * 
-	 * @param errorMessage
+	 * @param errorMessage error message to be displayed
 	 */
 	private static void error(String errorMessage) {
 		try {
