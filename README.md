@@ -19,7 +19,7 @@ When creating a conversation, CLImessage:
 When opening a previously created conversation, CLImessage:
 - Opens the messenger and allows sending and receiving of messages.
 - Displays the last 10 logged messages.
-- Logs sent and received messages.
+- Logs all sent and received messages.
 
 Other features:
 - When receiving a message, CLImessage will play a notification sound.
@@ -28,7 +28,7 @@ Other features:
 <a href="https://asciinema.org/a/RD8LOwo4d6tmkWLIXlus6vGqD" target="_blank"><img src="https://asciinema.org/a/RD8LOwo4d6tmkWLIXlus6vGqD.svg" width="600"/></a>
 
 ## Requirements
-- A Java JDK distribution must be installed and added to PATH.
+- A Java JDK distribution >=8 must be installed and added to PATH.
 - The G-Mail account to be used must have 3rd party access enabled at https://myaccount.google.com/lesssecureapps.
 - Any phone numbers used must have one of the following carriers:
   - AT&T
@@ -40,7 +40,7 @@ Other features:
   - Cricket Wireless
 
 ## Compatibility
-CLImessage is compatible with Mac and Linux. Windows compatibility is coming soon.
+CLImessage is compatible with Mac and Linux.
 
 ## Installation
 ```
@@ -51,11 +51,7 @@ git clone https://github.com/ThatcherDev/CLImessage.git
 cd CLImessage
 
 # build CLImessage with Maven
-# for Linux run
-chmod +x mvnw
-./mvnw clean package
-
-# for Mac run
+# for Linux and Mac run
 sh mvnw clean package
 ```
 
@@ -68,4 +64,4 @@ java -jar climessage.jar
 
 ## License
 - [MIT](https://choosealicense.com/licenses/mit/)
-- Copyright 2019 ©️ ThatcherDev.
+- Copyright 2019 © ThatcherDev.

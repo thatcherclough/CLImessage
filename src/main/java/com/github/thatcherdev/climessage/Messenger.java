@@ -31,9 +31,10 @@ public class Messenger {
 	 * <p>
 	 * Gets address and password of G-Mail account from "userdata/creds.properties".
 	 * Parses {@link filename} to get phone number associated with conversation.
-	 * Uses {@link EmailUtils#getEmail(String)} to get email that forwards to
-	 * {@link number}. Gets previous conversation messages from file associated with
-	 * {@link filename}. Sets {@link out} to file associated with {@link filename}.
+	 * Uses {@link EmailUtils#getEmail(String)} to get the email address that
+	 * forwards to the phone number. Gets previous conversation messages from file
+	 * with name {@link filename}. Sets {@link out} to the file with name
+	 * {@link filename}.
 	 * 
 	 * @param filename file containing previous messages
 	 * @return
@@ -47,7 +48,7 @@ public class Messenger {
 		password = creds.getProperty("password");
 		recipient = EmailUtils.getEmail(filename.substring(filename.lastIndexOf("-") + 1, filename.lastIndexOf(".")));
 		Scanner in = new Scanner(new File(filename));
-		for (int k = 0; k < 10 && in.hasNextLine(); k++)
+		while (in.hasNextLine())
 			messages.add(0, in.nextLine());
 		in.close();
 		out = new PrintWriter(new FileOutputStream(new File(filename), true), true);
@@ -56,11 +57,11 @@ public class Messenger {
 	/**
 	 * Starts messenger.
 	 * <p>
-	 * Uses {@link RawConsole#enable()} to enable "raw" mode on current console.
-	 * Displays previous messages. Starts a new thread {@link getInput} to
+	 * Uses {@link RawConsole#enable()} to enable "raw" mode on the current unix
+	 * console. Displays previous messages. Starts a new thread {@link getInput} to
 	 * constantly get keyboard input for messages to send. Starts a new thread
-	 * {@link receiveMessages} to constantly get messages that have been sent by
-	 * {@link #recipient}.
+	 * {@link receiveMessages} to constantly get messages that have been sent to
+	 * {@link #address} from {@link #recipient}.
 	 * 
 	 * @throws InterruptedException
 	 * @throws IOException
@@ -80,14 +81,14 @@ public class Messenger {
 						String message = RawConsole.getInput(reader);
 						String timestamp = "["
 								+ DateTimeFormatter.ofPattern("MM/dd/YYYY HH:mm:ss").format(LocalDateTime.now()) + "]";
-						messages.add(0, message + "  -  [sent] " + timestamp);
-						messages.remove(messages.size() - 1);
+						String finalMessage = message + "  -  [sent] " + timestamp;
+						messages.add(0, finalMessage);
 						dispMessages();
-						out.println(message + "  -  [sent] " + timestamp);
+						out.println(finalMessage);
 						sendMessage(message);
 						System.out.print(Ansi.ansi().eraseLine(Erase.BACKWARD).cursorToColumn(0));
 					} catch (Exception e) {
-						error(e.getMessage());
+						error(e);
 					}
 				}
 			}
@@ -103,15 +104,19 @@ public class Messenger {
 							String timestamp = "["
 									+ DateTimeFormatter.ofPattern("MM/dd/YYYY HH:mm:ss").format(LocalDateTime.now())
 									+ "]";
-							messages.add(0, message + "  -  [received] " + timestamp);
-							messages.remove(messages.size() - 1);
+							if (message.contains("\r"))
+								message = message.substring(0, message.indexOf("\r"));
+							if (message.contains("\n"))
+								message = message.substring(0, message.indexOf("\n"));
+							String finalMessage = message + "  -  [received] " + timestamp;
+							messages.add(0, finalMessage);
 							dispMessages();
-							out.println(message + "  -  [received] " + timestamp);
+							out.println(finalMessage);
 							playNotificationSound();
 						}
 						Thread.sleep(3000);
 					} catch (Exception e) {
-						error(e.getMessage());
+						error(e);
 					}
 				}
 			}
@@ -121,14 +126,14 @@ public class Messenger {
 	}
 
 	/**
-	 * Saves cursor position, moves cursor down 2 lines, displays {@ink #messages},
-	 * restores cursor position.
+	 * Saves cursor position, moves cursor down 2 lines, displays the first 5
+	 * elements of {@ink #messages}, and restores cursor position.
 	 */
 	private void dispMessages() {
 		System.out.print("\0337"); // saves cursor position
 		System.out.print(Ansi.ansi().cursorDown(2));
-		for (String message : messages)
-			RawConsole.println(Ansi.ansi().eraseLine() + message);
+		for (int k = 0; (k < messages.size() && k < 10); k++)
+			RawConsole.println(Ansi.ansi().eraseLine() + messages.get(k));
 		System.out.print("\0338"); // restores cursor position
 	}
 
@@ -145,7 +150,7 @@ public class Messenger {
 					Thread.sleep(3000);
 					EmailUtils.sendEmail(address, password, recipient, message);
 				} catch (Exception e) {
-					error(e.getMessage());
+					error(e);
 				}
 			}
 		};
@@ -168,17 +173,17 @@ public class Messenger {
 	}
 
 	/**
-	 * Disables "raw" mode for current console, clears screen, moves cursor to
-	 * (0,0), displays "An error occurred:" followed by {@link errorMessage}, and
-	 * exits.
+	 * Disables "raw" mode on the current unix console, clears console, and prints
+	 * stack trace of Exception {@link e}
 	 * 
-	 * @param errorMessage error message to be displayed
+	 * @param e Exception to print stack trace of
 	 */
-	private static void error(String errorMessage) {
+	private static void error(Exception e) {
 		try {
 			RawConsole.disable();
-			System.out.println(Ansi.ansi().eraseScreen().cursor(0, 0) + "An error occurred:\n" + errorMessage);
-		} catch (Exception e) {
+			System.out.print(Ansi.ansi().eraseScreen().cursor(0, 0));
+			e.printStackTrace();
+		} catch (Exception e1) {
 		} finally {
 			System.exit(0);
 		}

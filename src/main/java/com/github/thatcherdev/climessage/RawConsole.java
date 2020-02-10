@@ -7,7 +7,7 @@ import org.fusesource.jansi.Ansi;
 public class RawConsole {
 
     /**
-     * Enables "raw" mode on current unix console.
+     * Enables "raw" mode on the current unix console.
      * 
      * @throws InterruptedException
      * @throws IOException
@@ -17,7 +17,7 @@ public class RawConsole {
     }
 
     /**
-     * Disables "raw" mode on current unix console.
+     * Disables "raw" mode on the current unix console.
      * 
      * @throws InterruptedException
      * @throws IOException
@@ -27,8 +27,8 @@ public class RawConsole {
     }
 
     /**
-     * Moves cursor to beginning of current line, prints{@link toPrint}, and moves
-     * cursor to beginning of next line.
+     * Moves the cursor to the beginning of the current line, prints
+     * {@link toPrint}, and moves the cursor to the beginning of the next line.
      * 
      * @param toPrint string to print
      */
@@ -52,15 +52,18 @@ public class RawConsole {
                 break;
             else if (ascii == 127 && !ret.isEmpty()) {
                 System.out.print("\b ");
-                System.out.print("\033[1D");
+                System.out.print(Ansi.ansi().cursorLeft(1));
                 ret = ret.substring(0, ret.length() - 1);
             } else if (ascii == 3) {
                 disable();
+                Thread.sleep(100);
                 System.out.print(Ansi.ansi().eraseScreen().cursor(0, 0));
+                Thread.sleep(100);
                 System.exit(0);
             } else if (ascii >= 32 && ascii <= 126) {
-                System.out.print((char) ascii);
-                ret += (char) ascii;
+                char typed = (char) ascii;
+                System.out.print(typed);
+                ret += typed;
             }
         }
         return ret;
