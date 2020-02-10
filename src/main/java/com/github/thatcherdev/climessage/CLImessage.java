@@ -17,12 +17,12 @@ public class CLImessage {
 	 * Starts CLImessage.
 	 * <p>
 	 * If directory "userdata" exists, uses {@link #getInput(String)} to prompt user
-	 * to select or create conversation, and opens or creates conversation.
+	 * to select or create conversation and opens or creates conversation.
 	 * Otherwise, creates directory "userdata", prompts user for G-Mail address and
 	 * password, saves these credentials to "userdata/creds.properties", and runs
 	 * {@link #main(String[])}.
 	 * 
-	 * @param args
+	 * @param args command line arguments
 	 */
 	public static void main(String[] args) {
 		AnsiConsole.systemInstall();
@@ -72,7 +72,7 @@ public class CLImessage {
 				main(null);
 			}
 		} catch (Exception e) {
-			error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
@@ -100,9 +100,9 @@ public class CLImessage {
 	/**
 	 * Opens conversation.
 	 * <p>
-	 * Opens conversation associated with {@link filename} by creating a new
-	 * {@link Messenger} with {@link filename}. Runs {@link Messenger#start()} to
-	 * open conversation.
+	 * Opens conversation with name {@link filename} by creating a new
+	 * {@link com.github.thatcherdev.climessage.Messenger} with {@link filename}.
+	 * Runs {@link Messenger#start()} to open conversation.
 	 * 
 	 * @param filename name of '.convo' file to open
 	 * @throws IOException
@@ -114,10 +114,10 @@ public class CLImessage {
 	}
 
 	/**
-	 * Gets keyboard input and cross references response based on {@link type}.
+	 * Gets user input and verify it's validity with {@link type}.
 	 * 
-	 * @param type type of expected input to use for cross referencing
-	 * @return String keyboard input that satisfies expected input of {@link type}
+	 * @param type type of input
+	 * @return user input
 	 */
 	private static String getInput(String type) {
 		System.out.print(">");
@@ -136,19 +136,9 @@ public class CLImessage {
 		} else if (type.equals("number") && EmailUtils.getEmail(ret) == null) {
 			System.out.println(
 					"\nCould not get carrier of phone number\nSee README for compatible carriers and enter a valid phone number:");
-			return getInput("number");
+			return getInput(type);
 		} else
 			System.out.println();
 		return ret;
-	}
-
-	/**
-	 * Displays "An error occurred:" followed by {@link errorMessage} and exits.
-	 * 
-	 * @param errorMessage error message to display
-	 */
-	private static void error(String errorMessage) {
-		System.out.println("\nAn error occurred:\n" + errorMessage + "\n");
-		System.exit(0);
 	}
 }
