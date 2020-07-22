@@ -45,7 +45,7 @@ CLImessage is compatible with Mac and Linux.
 ## Installation
 ```
 # clone CLImessage
-git clone https://github.com/ThatcherDev/CLImessage.git
+git clone https://github.com/thatcherclough/CLImessage.git
 
 # change the working directory to CLImessage
 cd CLImessage
@@ -55,7 +55,7 @@ cd CLImessage
 sh mvnw clean package
 ```
 
-Alternatively, you can download the jar from the [release page](https://github.com/ThatcherDev/CLImessage/releases).
+Alternatively, you can download the jar from the [release page](https://github.com/thatcherclough/CLImessage/releases).
 
 ## Usage
 ```
@@ -64,4 +64,4 @@ java -jar climessage.jar
 
 ## License
 - [MIT](https://choosealicense.com/licenses/mit/)
-- Copyright 2019 © ThatcherDev.
+- Copyright 2020 © Thatcher Clough.

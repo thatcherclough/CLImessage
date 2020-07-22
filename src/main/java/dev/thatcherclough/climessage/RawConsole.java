@@ -1,4 +1,4 @@
-package com.github.thatcherdev.climessage;
+package dev.thatcherclough.climessage;
 
 import java.io.IOException;
 import java.io.Reader;

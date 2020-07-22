@@ -1,4 +1,4 @@
-package com.github.thatcherdev.climessage;
+package dev.thatcherclough.climessage;
 
 import java.io.IOException;
 import java.io.File;
@@ -101,7 +101,7 @@ public class CLImessage {
 	 * Opens conversation.
 	 * <p>
 	 * Opens conversation with name {@link filename} by creating a new
-	 * {@link com.github.thatcherdev.climessage.Messenger} with {@link filename}.
+	 * {@link Messenger} with {@link filename}.
 	 * Runs {@link Messenger#start()} to open conversation.
 	 * 
 	 * @param filename name of '.convo' file to open

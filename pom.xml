@@ -7,7 +7,7 @@
 		<version>2.1.8.RELEASE</version>
 		<relativePath />
 	</parent>
-	<groupId>com.github.thatcherdev</groupId>
+	<groupId>dev.thatcherclough</groupId>
 	<artifactId>CLImessage</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>CLImessage</name>
@@ -59,7 +59,7 @@
 						<phase>package</phase>
 						<configuration>
 							<finalName>climessage</finalName>
-							<mainClass>com.github.thatcherdev.climessage.CLImessage</mainClass>
+							<mainClass>dev.thatcherclough.climessage.CLImessage</mainClass>
 							<outputDirectory>${project.basedir}</outputDirectory>
 						</configuration>
 						<goals>
