@@ -1,6 +1,6 @@
 /target/
-/.settings/
-/.vscode
-/*.jar
 .DS_Store
+/*.jar
+/.idea/
+CLImessage.iml
 /userdata/

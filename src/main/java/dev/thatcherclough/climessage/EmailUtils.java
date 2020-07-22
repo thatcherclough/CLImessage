@@ -1,4 +1,4 @@
-package com.github.thatcherdev.climessage;
+package dev.thatcherclough.climessage;
 
 import javax.mail.search.FlagTerm;
 import javax.mail.Flags;
